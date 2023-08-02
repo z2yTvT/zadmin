@@ -2,7 +2,7 @@ package com.z.service;
 
 import com.z.bean.admin.req.login.LoginReq;
 import com.z.bean.admin.res.login.LoginRes;
-import com.z.entity.dto.JwtUserDto;
+import com.z.entity.dto.SecurityUserDto;
 import com.z.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ public class LoginService {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);//放在当前线程上下文 todo 密码错误异常处理
-        JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+        SecurityUserDto jwtUserDto = (SecurityUserDto) authentication.getPrincipal();
         String token = JwtUtil.createJWT(jwtUserDto.getUser().getId().toString());
         LoginRes res = new LoginRes();
         res.setToken(token);

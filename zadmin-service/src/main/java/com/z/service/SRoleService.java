@@ -1,11 +1,15 @@
 package com.z.service;
 
 
-/**
-* @author zyyz
-* @description 针对表【s_role(系统角色)】的数据库操作Service
-* @createDate 2023-07-31 23:30:15
-*/
+import com.z.entity.dto.AuthorityDto;
+import com.z.entity.sys.SUser;
+
+import java.util.List;
+import java.util.Set;
+
+
 public interface SRoleService {
 
+    //获取用户所有权限
+    List<AuthorityDto> getAuthorities(SUser user);
 }

@@ -2,8 +2,10 @@ package com.z.config.filter;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.z.entity.dto.JwtUserDto;
+import com.z.entity.dto.AuthorityDto;
+import com.z.entity.dto.SecurityUserDto;
 import com.z.entity.sys.SUser;
+import com.z.service.SRoleService;
 import com.z.sys.mapper.SUserMapper;
 import com.z.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -19,13 +21,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private SUserMapper userMapper;
+
+    @Autowired
+    private SRoleService roleService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -42,13 +48,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }catch (Exception e){
             throw new RuntimeException(e);//todo 异常处理
         }
-        SUser user = userMapper.selectById(userId);//todo JwtUserDto && 权限todo
-        JwtUserDto jwtUserDto = new JwtUserDto(user,new HashSet<>());
+        SUser user = userMapper.selectById(userId);//todo SecurityUserDto && 权限todo
+        List<AuthorityDto> authorities = roleService.getAuthorities(user);
+        SecurityUserDto securityUserDto = new SecurityUserDto(user,authorities);
         if(user == null){
             throw new RuntimeException("用户未登录");
         }
         //将认证后的信息存储到Spring Security的上下文中，以便后续的访问控制决策使用。
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(jwtUserDto,null, jwtUserDto.getAuthorities());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(securityUserDto,null, securityUserDto.getAuthorities());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);

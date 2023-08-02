@@ -12,20 +12,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
-public class JwtUserDto implements UserDetails {
+public class SecurityUserDto implements UserDetails {
 
     private SUser user;
 
     /**
      * 权限列表
      */
-    private Set<String> permissions;
+    private List<AuthorityDto> permissions;
 
-    public JwtUserDto(SUser user, Set<String> permissions) {
+    public SecurityUserDto(SUser user, List<AuthorityDto>  permissions) {
         this.user = user;
         this.permissions = permissions;
     }
