@@ -34,7 +34,7 @@ public class SecurityUserDto implements UserDetails {
     @Override
     @JSONField(serialize = false)
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return permissions;
     }
 
     @Override
