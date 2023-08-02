@@ -1,0 +1,6 @@
+/zadmin-web/target/
+/zadmin-service/target/
+/zadmin-dal/target/
+/zadmin-com/target/
+/.idea/
+/zadmin.iml
