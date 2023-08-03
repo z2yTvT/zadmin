@@ -32,6 +32,11 @@ public class SMenu implements Serializable {
     private String perm;
 
     /**
+     * 菜单类型
+     */
+    private Integer menuType;
+
+    /**
      * 父菜单id
      */
     private Long pId;
