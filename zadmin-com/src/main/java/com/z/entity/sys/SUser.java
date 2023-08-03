@@ -47,6 +47,11 @@ public class SUser implements Serializable {
     private Integer userType;
 
     /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 账号状态 0-正常 1-封禁
      */
     private Integer userStatus;

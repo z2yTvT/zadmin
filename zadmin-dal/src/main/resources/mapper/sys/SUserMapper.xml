@@ -25,4 +25,16 @@
         user_status,create_time,create_user,
         update_time,update_user,deleted
     </sql>
+    <select id="getAllRoleByUserId" resultType="java.lang.String">
+        select r.role_key
+        from zadmin.s_user as u
+        left join zadmin.s_user_role as ur on u.id = ur.u_id
+        left join zadmin.s_role as r on ur.r_id = r.id
+        <where>
+            <if test="userId != null and userId != 0">
+                u.id = #{userId}
+            </if>
+            and u.deleted = 0
+        </where>
+    </select>
 </mapper>

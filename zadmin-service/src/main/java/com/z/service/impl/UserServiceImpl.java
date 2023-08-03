@@ -1,28 +1,43 @@
 package com.z.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.z.bean.admin.req.user.UserInfoRes;
 import com.z.bean.admin.req.login.LoginReq;
 import com.z.bean.base.Response;
+import com.z.entity.dto.SecurityUserDto;
 import com.z.entity.sys.SUser;
 import com.z.service.SUserService;
 import com.z.sys.mapper.SUserMapper;
 import com.z.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * @program:zadmin
- * @author: Zzz
- * @Time: 2023/8/1  18:04
- */
 @Service
-public class UserService implements SUserService {
+public class UserServiceImpl implements SUserService {
 
     @Autowired
     private SUserMapper userMapper;
+
+    public Response<UserInfoRes> getUserInfo(){
+        SecurityUserDto securityUser = SecurityUtils.getSecurityUser();
+        SUser user = securityUser.getUser();
+
+        List<String> perms = securityUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        List<String> roles =  userMapper.getAllRoleByUserId(user.getId());
+
+        UserInfoRes userInfoRes = new UserInfoRes();
+        userInfoRes.setName(user.getNickname());
+        userInfoRes.setAvatar(user.getAvatar());
+        userInfoRes.setPerms(perms);
+        userInfoRes.setRoles(roles);
+
+        return Response.success(userInfoRes);
+    }
 
     public Response<Boolean> register(LoginReq req) {
 

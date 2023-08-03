@@ -8,7 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityUtils {
 
     public static SecurityUserDto getSecurityUser(){
-        return (SecurityUserDto)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (SecurityUserDto)principal;
     }
 
 
