@@ -46,6 +46,7 @@ public class AspectConfig {
     private List<Object> filterArgs(Object[] objects) {
         return Arrays.stream(objects).filter(obj -> !(obj instanceof MultipartFile)
                 && !(obj instanceof HttpServletResponse)
-                && !(obj instanceof HttpServletRequest)).collect(Collectors.toList());
+                && !(obj instanceof HttpServletRequest)
+                && !(obj instanceof Exception)).collect(Collectors.toList());
     }
 }

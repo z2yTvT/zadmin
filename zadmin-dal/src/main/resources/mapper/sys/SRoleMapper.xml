@@ -31,4 +31,25 @@
             and #{user.deleted} != 1
         </where>
     </select>
+    <select id="list" resultType="com.z.bean.admin.res.role.RoleListRes">
+        select r.id,
+            r.role_name,
+            r.role_key,
+            r.sort,
+            r.enable,
+            r.data_scope,
+            r.create_time,
+            r.create_user
+        from zadmin.s_role as r
+        <where>
+            <if test="req.roleName != null and req.roleName != ''">
+                r.role_name like concat('%',#{req.roleName},'%')
+            </if>
+            <if test="req.roleKey != null and req.roleKey != ''">
+                r.role_key like concat('%',#{req.roleKey},'%')
+            </if>
+            and r.deleted = 0
+        </where>
+        order by r.sort
+    </select>
 </mapper>

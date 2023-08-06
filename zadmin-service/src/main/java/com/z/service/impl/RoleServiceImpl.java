@@ -2,7 +2,12 @@ package com.z.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.z.bean.admin.req.role.RoleAddReq;
+import com.z.bean.admin.req.role.RoleEditReq;
+import com.z.bean.admin.req.role.RoleListReq;
+import com.z.bean.admin.res.role.RoleListRes;
 import com.z.bean.base.Response;
 import com.z.entity.dto.AuthorityDto;
 import com.z.entity.sys.SMenu;
@@ -28,6 +33,31 @@ public class RoleServiceImpl implements SRoleService {
 
     @Autowired
     private SRoleMapper roleMapper;
+
+    @Override
+    public Response edit(RoleEditReq req) {
+        LambdaQueryWrapper<SRole> ldw = new LambdaQueryWrapper<>();
+        ldw.ne(req.getId() != null,SRole::getId,req.getId())
+                .and(w -> w.eq(SRole::getRoleKey,req.getRoleKey())
+                                .or()
+                                .eq(SRole::getRoleName,req.getRoleName()));
+        Integer cntDb = roleMapper.selectCount(ldw);
+        if(cntDb > 0){
+            return Response.error("角色名称或角色权限标识已存在！");
+        }
+        SRole newRole = new SRole();
+        BeanUtils.copyProperties(req,newRole);
+        newRole.setCreateTime(new Date());
+        newRole.setCreateUser(SecurityUtils.getSecurityUser().getUser().getUserName());
+        roleMapper.updateById(newRole);
+        return Response.success();
+    }
+
+    public Response list(RoleListReq req){
+        Page<RoleListRes> page = new Page<>(req.getPageIndex(),req.getPageSize());
+        IPage<RoleListRes> pageList = roleMapper.list(page,req);
+        return Response.success(pageList);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

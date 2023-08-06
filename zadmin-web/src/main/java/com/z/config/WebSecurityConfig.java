@@ -1,6 +1,7 @@
 package com.z.config;
 
 import com.z.config.filter.JwtAuthenticationTokenFilter;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 
 @Configuration
 @EnableWebSecurity
@@ -61,4 +68,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
+
+    @Bean
+    public Validator validator(){
+        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                .failFast(true)
+                .buildValidatorFactory();
+        return validatorFactory.getValidator();
+    }
+
 }

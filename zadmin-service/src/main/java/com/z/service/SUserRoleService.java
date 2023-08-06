@@ -3,6 +3,8 @@ package com.z.service;
 import com.z.entity.sys.SUserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author zyyz
 * @description 针对表【s_user_role(用户角色关联表)】的数据库操作Service
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SUserRoleService  {
 
+    Boolean addUserRoles(List<Long> roleIds, Long userId);
 }

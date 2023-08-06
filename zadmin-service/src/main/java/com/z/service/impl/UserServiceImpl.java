@@ -1,14 +1,18 @@
 package com.z.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.z.bean.admin.req.user.AddUserReq;
 import com.z.bean.admin.req.user.UserInfoRes;
 import com.z.bean.admin.req.login.LoginReq;
 import com.z.bean.base.Response;
+import com.z.constant.SystemConstants;
 import com.z.entity.dto.SecurityUserDto;
 import com.z.entity.sys.SUser;
+import com.z.service.SUserRoleService;
 import com.z.service.SUserService;
 import com.z.sys.mapper.SUserMapper;
 import com.z.utils.SecurityUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,30 @@ public class UserServiceImpl implements SUserService {
 
     @Autowired
     private SUserMapper userMapper;
+
+    @Autowired
+    private SUserRoleService userRoleService;
+
+    @Override
+    public Response addUser(AddUserReq req) {
+        LambdaQueryWrapper<SUser> ldw = new LambdaQueryWrapper<>();
+        ldw.eq(SUser::getUserName,req.getUserName());
+        Integer cnt = userMapper.selectCount(ldw);
+        if(cnt > 0){
+            return Response.error("用户已存在！");
+        }
+        String defaultPassword = SecurityUtils.encryptPassword(SystemConstants.DEFAULT_PASSWORD);
+        SUser newUser = new SUser();
+        BeanUtils.copyProperties(req,newUser);
+        newUser.setUserType(2);
+        newUser.setPassWord(defaultPassword);
+        newUser.setCreateUser(SecurityUtils.getSecurityUser().getUser().getUserName());
+        newUser.setCreateTime(new Date());
+        newUser.setNickname(req.getUserName());
+        long id =  userMapper.insert(newUser);
+        Boolean res = userRoleService.addUserRoles(req.getRoleIds(), id);
+        return Response.success(res);
+    }
 
     public Response<UserInfoRes> getUserInfo(){
         SecurityUserDto securityUser = SecurityUtils.getSecurityUser();

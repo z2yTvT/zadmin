@@ -42,6 +42,16 @@ public class SRole implements Serializable {
     private String remark;
 
     /**
+     * 是否启用
+     */
+    private Integer enable;
+
+    /**
+     * 显示顺序
+     */
+    private Integer sort;
+
+    /**
      * 创建人
      */
     private String createUser;
