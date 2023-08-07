@@ -9,4 +9,5 @@ public interface SystemConstants {
 
     String DEFAULT_PASSWORD = "666666";
 
+    Long MENU_PARENT_ID = 0L;
 }

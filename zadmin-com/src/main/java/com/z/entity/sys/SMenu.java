@@ -32,7 +32,7 @@ public class SMenu implements Serializable {
     private String perm;
 
     /**
-     * 菜单类型
+     * 菜单类型 1:目录 2：菜单 3：按钮
      */
     private Integer menuType;
 
@@ -75,6 +75,11 @@ public class SMenu implements Serializable {
      * 备注
      */
     private String remark;
+
+    /**
+     * 跳转路径
+     */
+    private String redirect;
 
     /**
      * 创建人

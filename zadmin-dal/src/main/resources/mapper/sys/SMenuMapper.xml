@@ -23,6 +23,23 @@
             <result property="deleted" column="deleted" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="RouteDtoMap" type="com.z.entity.dto.RouteDto">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+        <result property="perm" column="perm" jdbcType="VARCHAR"/>
+        <result property="pId" column="p_id" jdbcType="BIGINT"/>
+        <result property="menuType" column="menu_type" jdbcType="BIGINT"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="isHidden" column="is_hidden" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
+        <result property="menuSort" column="menu_sort" jdbcType="INTEGER"/>
+        <collection property="roleIds"  javaType="java.util.ArrayList" ofType="integer">
+            <result column="roleId"/>
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,menu_name,perm,
         p_id,sub_count,component,
@@ -31,4 +48,28 @@
         create_time,update_user,update_time,
         deleted
     </sql>
+    <select id="getAllRoutes" resultMap="RouteDtoMap">
+        select
+        m.id,
+        m.menu_name,
+        m.perm,
+        m.p_id,
+        m.component,
+        m.path,
+        m.is_hidden,
+        m.icon,
+        m.redirect,
+        m.menu_sort,
+        m.menu_type,
+        mr.r_id as roleId
+        from zadmin.s_menu as m
+        left join zadmin.s_menu_role as mr on m.id = mr.m_id
+        left join zadmin.s_role as r on r.id = mr.r_id
+        <where>
+            m.deleted = 0
+            and m.menu_type != 3
+        </where>
+        order by m.menu_sort
+    </select>
+
 </mapper>
