@@ -35,8 +35,8 @@
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
         <result property="menuSort" column="menu_sort" jdbcType="INTEGER"/>
-        <collection property="roleIds"  javaType="java.util.ArrayList" ofType="integer">
-            <result column="roleId"/>
+        <collection property="roleKeys"  javaType="java.util.ArrayList" ofType="string">
+            <result column="roleKey"/>
         </collection>
     </resultMap>
 
@@ -61,7 +61,7 @@
         m.redirect,
         m.menu_sort,
         m.menu_type,
-        mr.r_id as roleId
+        r.role_key as roleKey
         from zadmin.s_menu as m
         left join zadmin.s_menu_role as mr on m.id = mr.m_id
         left join zadmin.s_role as r on r.id = mr.r_id

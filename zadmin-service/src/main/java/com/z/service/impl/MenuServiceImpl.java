@@ -1,6 +1,5 @@
 package com.z.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.z.bean.admin.req.menu.AddMenuReq;
 import com.z.bean.base.Response;
@@ -47,13 +46,14 @@ public class MenuServiceImpl implements SMenuService{
                     }
                     routeVo.setComponent(curMenu.getComponent());
                     routeVo.setPath(curMenu.getPath());
+                    routeVo.setName(curMenu.getMenuName());
 
                     RouteVo.Meta meta = new RouteVo.Meta();
-                    meta.setHidden(curMenu.getIsHidden() == 0);
+                    meta.setHidden(curMenu.getIsHidden() == 1);
                     meta.setIcon(curMenu.getIcon());
                     meta.setKeepAlive(Boolean.TRUE);
-                    meta.setRoleIds(curMenu.getRoleIds());
-                    meta.setTittle(curMenu.getMenuName());
+                    meta.setRoleKeys(curMenu.getRoleKeys());
+                    meta.setTitle(curMenu.getMenuName());
                     routeVo.setMeta(meta);
                     List<RouteVo> sub = recurRoutes2Tree(curMenu.getId(), menus);
                     routeVo.setChildren(sub);

@@ -65,6 +65,6 @@ public class RouteDto {
     /**
      * 拥有菜单角色Id集合
      */
-    private List<Integer> roleIds;
+    private List<String> roleKeys;
 
 }

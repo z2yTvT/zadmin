@@ -40,7 +40,7 @@ public class RouteVo {
     @Data
     public static class Meta{
 
-        private String tittle;
+        private String title;
 
         private String icon;
 
@@ -51,7 +51,7 @@ public class RouteVo {
         /**
          * 角色 id集合 [1,2,3]
          */
-        private List<Integer> roleIds;
+        private List<String> roleKeys;
 
     }
 }
