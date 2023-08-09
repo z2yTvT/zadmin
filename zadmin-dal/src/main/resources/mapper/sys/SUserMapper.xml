@@ -37,4 +37,22 @@
             and u.deleted = 0
         </where>
     </select>
+    <select id="getUserList" resultType="com.z.bean.admin.res.User.UserListRes">
+        select
+            u.id,
+            u.nickname,
+            u.user_name,
+            u.user_status,
+            u.create_time,
+            r.role_name
+        from s_user as u
+            left join s_user_role as ur on u.id = ur.u_id
+            left join s_role as r on ur.r_id = r.id
+        <where>
+            u.deleted = 0
+            <if test="req.nickname != null and req.nickname != ''">
+                and u.nickname like concat('%',#{req.nickname},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

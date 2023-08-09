@@ -2,6 +2,7 @@ package com.z.bean.admin.req.user;
 
 import lombok.Data;
 
+
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class AddUserReq {
     /**
      * 用户昵称
      */
-    @NotBlank(message = "用户昵称不能为空！")
+    @NotBlank
     private String nickname;
 
     /**
@@ -28,7 +29,7 @@ public class AddUserReq {
     /**
      * 所在组织id
      */
-    @NotBlank(message = "所属组织id不能为空！")
+//    @NotBlank(message = "所属组织id不能为空！")
     private Long orgId;
 
     /**
@@ -39,6 +40,6 @@ public class AddUserReq {
     /**
      * 所属角色id集合
      */
-    @NotBlank(message = "所属组织id不能为空！")
+//    @NotBlank(message = "所属角色id不能为空！")
     private List<Long> roleIds;
 }

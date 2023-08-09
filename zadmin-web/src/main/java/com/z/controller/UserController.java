@@ -1,7 +1,11 @@
 package com.z.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.z.bean.admin.req.user.AddUserReq;
+import com.z.bean.admin.req.user.EditUserReq;
 import com.z.bean.admin.req.user.UserInfoRes;
+import com.z.bean.admin.req.user.UserListReq;
+import com.z.bean.admin.res.User.UserListRes;
 import com.z.bean.base.Response;
 import com.z.service.SUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,16 @@ public class UserController {
 
     @Autowired
     private SUserService userService;
+
+    @PostMapping("editUser")
+    public Response editUser(@RequestBody @Valid EditUserReq req){
+        return userService.editUser(req);
+    }
+
+    @PostMapping("/getUserList")
+    public Response getUserList(@RequestBody UserListReq req){
+        return userService.getUserList(req);
+    }
 
     @PostMapping("/addUser")
     public Response addUser(@RequestBody @Valid AddUserReq req){

@@ -1,9 +1,15 @@
 package com.z.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.z.bean.admin.req.user.AddUserReq;
+import com.z.bean.admin.req.user.EditUserReq;
 import com.z.bean.admin.req.user.UserInfoRes;
 import com.z.bean.admin.req.login.LoginReq;
+import com.z.bean.admin.req.user.UserListReq;
+import com.z.bean.admin.res.User.UserListRes;
+import com.z.bean.admin.res.role.RoleListRes;
 import com.z.bean.base.Response;
 import com.z.constant.SystemConstants;
 import com.z.entity.dto.SecurityUserDto;
@@ -29,6 +35,29 @@ public class UserServiceImpl implements SUserService {
 
     @Autowired
     private SUserRoleService userRoleService;
+
+
+    @Override
+    public Response editUser(EditUserReq req) {
+        Integer count = userMapper.selectCount(new LambdaQueryWrapper<SUser>().eq(SUser::getUserName, req.getUserName()).ne(SUser::getId, req.getId()));
+        if(count > 0){
+            return Response.error("用户名已存在！");
+        }
+        SUser newUser = new SUser();
+        BeanUtils.copyProperties(req,newUser);
+        newUser.setUpdateTime(new Date());
+        newUser.setUpdateUser(SecurityUtils.getSecurityUser().getUser().getUserName());
+        userMapper.updateById(newUser);
+        return Response.success();
+    }
+
+    @Override
+    public Response getUserList(UserListReq req) {
+        Page<UserListRes> page = new Page<>(req.getPageIndex(), req.getPageSize());
+        IPage<UserListRes> pageList = userMapper.getUserList(page,req);
+        return Response.success(pageList);
+    }
+
 
     @Override
     public Response addUser(AddUserReq req) {
