@@ -20,7 +20,9 @@ public interface SRoleService {
     //新增角色
     Response<Boolean> addRole(RoleAddReq req);
 
-    Response list(RoleListReq req);
+    Response getRoleList(RoleListReq req);
 
-    Response edit(RoleEditReq req);
+    Response editRole(RoleEditReq req);
+
+    Response getRoleMenus(String rid);
 }

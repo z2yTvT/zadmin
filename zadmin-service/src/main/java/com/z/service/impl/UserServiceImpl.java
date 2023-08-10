@@ -1,15 +1,12 @@
 package com.z.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.z.bean.admin.req.user.AddUserReq;
-import com.z.bean.admin.req.user.EditUserReq;
-import com.z.bean.admin.req.user.UserInfoRes;
+import com.z.bean.admin.req.user.*;
 import com.z.bean.admin.req.login.LoginReq;
-import com.z.bean.admin.req.user.UserListReq;
-import com.z.bean.admin.res.User.UserListRes;
-import com.z.bean.admin.res.role.RoleListRes;
+import com.z.bean.admin.res.user.UserListRes;
 import com.z.bean.base.Response;
 import com.z.constant.SystemConstants;
 import com.z.entity.dto.SecurityUserDto;
@@ -22,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,12 +28,26 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements SUserService {
 
+
+
     @Autowired
     private SUserMapper userMapper;
 
     @Autowired
     private SUserRoleService userRoleService;
 
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response relateUserRole(RelateUserRoleReq req) {
+        List<Long> roleIds = req.getRoleIds();
+        if(CollUtil.isEmpty(roleIds)){
+            return Response.error("每个用户至少绑定一个角色！");
+        }
+        userRoleService.deleteUserRole(req.getId(),roleIds);
+        userRoleService.addUserRoles(req.getRoleIds(),req.getId());
+        return Response.success();
+    }
 
     @Override
     public Response editUser(EditUserReq req) {

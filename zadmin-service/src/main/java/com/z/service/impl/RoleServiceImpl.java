@@ -9,11 +9,14 @@ import com.z.bean.admin.req.role.RoleEditReq;
 import com.z.bean.admin.req.role.RoleListReq;
 import com.z.bean.admin.res.role.RoleListRes;
 import com.z.bean.base.Response;
+import com.z.constant.SystemConstants;
 import com.z.entity.dto.AuthorityDto;
+import com.z.entity.dto.RoleMenuDto;
 import com.z.entity.sys.SMenu;
 import com.z.entity.sys.SMenuRole;
 import com.z.entity.sys.SRole;
 import com.z.entity.sys.SUser;
+import com.z.entity.vo.RoleMenusVo;
 import com.z.service.SRoleService;
 import com.z.sys.mapper.SMenuMapper;
 import com.z.sys.mapper.SRoleMapper;
@@ -35,7 +38,24 @@ public class RoleServiceImpl implements SRoleService {
     private SRoleMapper roleMapper;
 
     @Override
-    public Response edit(RoleEditReq req) {
+    public Response getRoleMenus(String rid) {
+        List<RoleMenuDto> allMenus = roleMapper.selectMenusByRid(rid);
+        List<RoleMenusVo> res = this.recurRoleMenus2Tree(SystemConstants.MENU_PARENT_ID,allMenus);
+        return Response.success(res);
+    }
+
+    private List<RoleMenusVo> recurRoleMenus2Tree(Long pid, List<RoleMenuDto> allMenus) {
+        return allMenus.stream().filter(m -> m.getPId().equals(pid))
+                .map(m -> {
+                    RoleMenusVo roleMenusVo = new RoleMenusVo();
+                    BeanUtils.copyProperties(m,roleMenusVo);
+                    roleMenusVo.setSubMenu(recurRoleMenus2Tree(m.getId(),allMenus));
+                    return roleMenusVo;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Response editRole(RoleEditReq req) {
         LambdaQueryWrapper<SRole> ldw = new LambdaQueryWrapper<>();
         ldw.ne(req.getId() != null,SRole::getId,req.getId())
                 .and(w -> w.eq(SRole::getRoleKey,req.getRoleKey())
@@ -53,7 +73,8 @@ public class RoleServiceImpl implements SRoleService {
         return Response.success();
     }
 
-    public Response list(RoleListReq req){
+
+    public Response getRoleList(RoleListReq req){
         Page<RoleListRes> page = new Page<>(req.getPageIndex(),req.getPageSize());
         IPage<RoleListRes> pageList = roleMapper.list(page,req);
         return Response.success(pageList);

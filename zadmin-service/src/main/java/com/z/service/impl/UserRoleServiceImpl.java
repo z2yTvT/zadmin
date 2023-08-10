@@ -19,6 +19,14 @@ public class UserRoleServiceImpl implements SUserRoleService {
     private SUserRoleMapper userRoleMapper;
 
     @Override
+    public void deleteUserRole(Long uid, List<Long> roleIds) {
+        if(CollUtil.isEmpty(roleIds)){
+            return;
+        }
+        userRoleMapper.deleteUserRole(uid,roleIds);
+    }
+
+    @Override
     public Boolean addUserRoles(List<Long> roleIds, Long userId) {
         if(CollUtil.isEmpty(roleIds) || userId == null){
             return Boolean.FALSE;
@@ -27,6 +35,7 @@ public class UserRoleServiceImpl implements SUserRoleService {
             SUserRole userRole = new SUserRole();
             userRole.setRId(rid);
             userRole.setUId(userId);
+            userRoleMapper.insert(userRole);
         });
         return Boolean.TRUE;
     }

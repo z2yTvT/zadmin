@@ -37,7 +37,7 @@
             and u.deleted = 0
         </where>
     </select>
-    <select id="getUserList" resultType="com.z.bean.admin.res.User.UserListRes">
+    <select id="getUserList" resultType="com.z.bean.admin.res.user.UserListRes">
         select
             u.id,
             u.nickname,

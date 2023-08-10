@@ -13,4 +13,14 @@
     <sql id="Base_Column_List">
         id,u_id,r_id
     </sql>
+    <delete id="deleteUserRole">
+        delete from zadmin.s_user_role as ur
+        <where>
+            ur.uid = #{uid}
+            and ur.rid in
+            <foreach collection="rids" item="rid" separator="," open="(" close=")">
+                #{rid}
+            </foreach>
+        </where>
+    </delete>
 </mapper>

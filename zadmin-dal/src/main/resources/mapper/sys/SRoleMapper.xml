@@ -52,4 +52,17 @@
         </where>
         order by r.sort
     </select>
+    <select id="selectMenusByRid" resultType="com.z.entity.dto.RoleMenuDto">
+        select m.p_id,m.menu_name,m.id
+        from zadmin.s_role as r
+        left join zadmin.s_menu_role as mr on r.id = mr.r_id
+        left join zadmin.s_menu as m on m.id = mr.m_id
+        <where>
+            m.deleted = 0
+            <if test="rid != null and rid != 0">
+                and r.id = #{rid}
+            </if>
+        </where>
+
+    </select>
 </mapper>

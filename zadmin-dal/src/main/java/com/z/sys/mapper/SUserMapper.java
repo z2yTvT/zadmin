@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.z.bean.admin.req.user.UserListReq;
-import com.z.bean.admin.res.User.UserListRes;
+import com.z.bean.admin.res.user.UserListRes;
 import com.z.entity.sys.SUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

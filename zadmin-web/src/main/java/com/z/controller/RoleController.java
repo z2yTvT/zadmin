@@ -6,10 +6,7 @@ import com.z.bean.admin.req.role.RoleListReq;
 import com.z.bean.base.Response;
 import com.z.service.SRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,14 +18,19 @@ public class RoleController {
     @Autowired
     private SRoleService roleService;
 
-    @PostMapping("edit")
-    public Response edit(@RequestBody @Valid RoleEditReq req){
-        return roleService.edit(req);
+    @GetMapping("/getRoleMenus")
+    public Response getRoleMenus(@RequestParam("rid") String rid){
+        return roleService.getRoleMenus(rid);
     }
 
-    @PostMapping("list")
-    public Response list(@RequestBody RoleListReq req){
-        return roleService.list(req);
+    @PostMapping("/editRole")
+    public Response editRole(@RequestBody @Valid RoleEditReq req){
+        return roleService.editRole(req);
+    }
+
+    @PostMapping("/getRoleList")
+    public Response getRoleList(@RequestBody RoleListReq req){
+        return roleService.getRoleList(req);
     }
 
     @PostMapping("/addRole")

@@ -1,4 +1,4 @@
-package com.z.bean.admin.res.User;
+package com.z.bean.admin.res.user;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

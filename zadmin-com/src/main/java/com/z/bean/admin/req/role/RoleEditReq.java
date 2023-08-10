@@ -27,6 +27,7 @@ public class RoleEditReq {
      * 角色权限标识
      */
     private String roleKey;
+
     /**
      * 数据权限范围
      */
