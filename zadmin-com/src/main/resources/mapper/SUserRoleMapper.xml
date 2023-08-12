@@ -16,8 +16,8 @@
     <delete id="deleteUserRole">
         delete from zadmin.s_user_role as ur
         <where>
-            ur.uid = #{uid}
-            and ur.rid in
+            ur.u_id = #{uid}
+            and ur.r_id in
             <foreach collection="rids" item="rid" separator="," open="(" close=")">
                 #{rid}
             </foreach>

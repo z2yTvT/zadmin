@@ -71,5 +71,16 @@
         </where>
         order by m.menu_sort
     </select>
+    <select id="getSelectedMenus" resultType="java.lang.Long">
+        select mr.m_id as id
+        from zadmin.s_role as r
+        left join zadmin.s_menu_role as mr on mr.r_id = r.id
+        <where>
+            <if test="rid != null and rid != 0">
+                r.id = #{rid}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

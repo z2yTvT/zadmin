@@ -65,4 +65,16 @@
         </where>
 
     </select>
+    <select id="getRoleByUid" resultType="com.z.bean.admin.req.role.RoleByUidRes">
+        select r.role_name,r.id
+        from s_role as r
+        left join s_user_role as ur on r.id = ur.r_id
+        left join s_user as u on ur.u_id = u.id
+        <where>
+            <if test="uid != null and uid != ''">
+                u.id = #{uid}
+            </if>
+            and r.deleted = 0
+        </where>
+    </select>
 </mapper>

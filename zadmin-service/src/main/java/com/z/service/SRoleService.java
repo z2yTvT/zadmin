@@ -1,6 +1,7 @@
 package com.z.service;
 
 
+import com.z.bean.admin.req.role.RelateRoleMenusReq;
 import com.z.bean.admin.req.role.RoleAddReq;
 import com.z.bean.admin.req.role.RoleEditReq;
 import com.z.bean.admin.req.role.RoleListReq;
@@ -25,4 +26,10 @@ public interface SRoleService {
     Response editRole(RoleEditReq req);
 
     Response getRoleMenus(String rid);
+
+    Response relateRoleMenus(RelateRoleMenusReq req);
+
+    Response getRoleByUid(Long uid);
+
+    Response getAllRole();
 }

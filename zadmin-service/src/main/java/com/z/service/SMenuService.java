@@ -12,4 +12,8 @@ public interface SMenuService  {
     Response addMenu(AddMenuReq req);
 
     Response<List<RouteVo>> getRoutes();
+
+    Response getMenuTreeOpt();
+
+    Response getSelectedMenus(Long rid);
 }

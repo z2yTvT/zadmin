@@ -1,5 +1,6 @@
 package com.z.controller;
 
+import com.z.bean.admin.req.role.RelateRoleMenusReq;
 import com.z.bean.admin.req.role.RoleAddReq;
 import com.z.bean.admin.req.role.RoleEditReq;
 import com.z.bean.admin.req.role.RoleListReq;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 
 @RestController
@@ -17,6 +19,21 @@ public class RoleController {
 
     @Autowired
     private SRoleService roleService;
+
+    @GetMapping("/getAllRole")
+    public Response getAllRole(){
+        return roleService.getAllRole();
+    }
+
+    @GetMapping("/getRoleByUid")
+    public Response getRoleByUid(@PathParam("uid") Long uid){
+        return roleService.getRoleByUid(uid);
+    }
+
+    @PostMapping("/relateRoleMenus")
+    public Response relateRoleMenus(@RequestBody RelateRoleMenusReq req){
+        return roleService.relateRoleMenus(req);
+    }
 
     @GetMapping("/getRoleMenus")
     public Response getRoleMenus(@RequestParam("rid") String rid){
@@ -37,8 +54,5 @@ public class RoleController {
     public Response<Boolean> addRole(@RequestBody RoleAddReq req){
         return roleService.addRole(req);
     }
-
-
-
 
 }

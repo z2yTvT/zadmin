@@ -1,24 +1,23 @@
 package com.z.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.z.bean.admin.req.role.RoleAddReq;
-import com.z.bean.admin.req.role.RoleEditReq;
-import com.z.bean.admin.req.role.RoleListReq;
+import com.z.bean.admin.req.role.*;
 import com.z.bean.admin.res.role.RoleListRes;
 import com.z.bean.base.Response;
 import com.z.constant.SystemConstants;
 import com.z.entity.dto.AuthorityDto;
 import com.z.entity.dto.RoleMenuDto;
-import com.z.entity.sys.SMenu;
 import com.z.entity.sys.SMenuRole;
 import com.z.entity.sys.SRole;
 import com.z.entity.sys.SUser;
 import com.z.entity.vo.RoleMenusVo;
 import com.z.service.SRoleService;
-import com.z.sys.mapper.SMenuMapper;
+import com.z.sys.mapper.SMenuRoleMapper;
 import com.z.sys.mapper.SRoleMapper;
 import com.z.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +35,45 @@ public class RoleServiceImpl implements SRoleService {
 
     @Autowired
     private SRoleMapper roleMapper;
+
+    @Autowired
+    private SMenuRoleMapper menuRoleMapper;
+
+
+    @Override
+    public Response getAllRole() {
+        QueryWrapper<SRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("role_name","id").eq("deleted",0);
+        List<SRole> roles = roleMapper.selectList(queryWrapper);
+        List<RoleByUidRes> res = roles.stream().map(r -> new RoleByUidRes(r.getRoleName(), r.getId())).collect(Collectors.toList());
+        return Response.success(res);
+    }
+
+
+    @Override
+    @Transactional
+    public Response relateRoleMenus(RelateRoleMenusReq req) {
+        Long rid = req.getRid();
+        List<Long> mIds = req.getMIds();
+        menuRoleMapper.delete(new LambdaQueryWrapper<SMenuRole>().eq(SMenuRole::getRId,rid));
+        if(CollUtil.isEmpty(mIds)){
+            return Response.success();
+        }
+        List<SMenuRole> roleMenus = mIds.stream()
+                .map(mid -> new SMenuRole(mid, rid))
+                .collect(Collectors.toList());
+        System.out.println(roleMenus.toString());
+        roleMenus.forEach(rm -> menuRoleMapper.insert(rm));
+        return Response.success();
+    }
+
+    @Override
+    public Response getRoleByUid(Long uid) {
+        List<RoleByUidRes> roles = roleMapper.getRoleByUid(uid);
+        return Response.success(roles);
+    }
+
+
 
     @Override
     public Response getRoleMenus(String rid) {
