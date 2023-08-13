@@ -24,10 +24,6 @@ public class UserListRes {
      */
     private String userName;
 
-    /**
-     * 所属角色名称
-     */
-    private String roleName;
 
     /**
      * 账号状态 0-正常 1-封禁

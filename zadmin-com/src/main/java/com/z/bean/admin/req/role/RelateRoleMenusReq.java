@@ -13,4 +13,12 @@ public class RelateRoleMenusReq {
 
     private List<Long> mIds;
 
+    public List<Long> getmIds() {
+        return mIds;
+    }
+
+    public void setmIds(List<Long> mIds) {
+        this.mIds = mIds;
+    }
+
 }

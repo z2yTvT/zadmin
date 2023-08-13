@@ -31,7 +31,7 @@ public class RoleController {
     }
 
     @PostMapping("/relateRoleMenus")
-    public Response relateRoleMenus(@RequestBody RelateRoleMenusReq req){
+    public Response relateRoleMenus(@RequestBody @Valid RelateRoleMenusReq req){
         return roleService.relateRoleMenus(req);
     }
 

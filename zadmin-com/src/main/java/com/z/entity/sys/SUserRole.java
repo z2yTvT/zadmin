@@ -18,6 +18,7 @@ public class SUserRole implements Serializable {
      * 主键id
 
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

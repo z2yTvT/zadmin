@@ -54,7 +54,7 @@ public class RoleServiceImpl implements SRoleService {
     @Transactional
     public Response relateRoleMenus(RelateRoleMenusReq req) {
         Long rid = req.getRid();
-        List<Long> mIds = req.getMIds();
+        List<Long> mIds = req.getmIds();
         menuRoleMapper.delete(new LambdaQueryWrapper<SMenuRole>().eq(SMenuRole::getRId,rid));
         if(CollUtil.isEmpty(mIds)){
             return Response.success();
@@ -62,7 +62,6 @@ public class RoleServiceImpl implements SRoleService {
         List<SMenuRole> roleMenus = mIds.stream()
                 .map(mid -> new SMenuRole(mid, rid))
                 .collect(Collectors.toList());
-        System.out.println(roleMenus.toString());
         roleMenus.forEach(rm -> menuRoleMapper.insert(rm));
         return Response.success();
     }
