@@ -2,6 +2,7 @@ package com.z.service;
 
 
 import com.z.bean.admin.req.menu.AddMenuReq;
+import com.z.bean.admin.req.user.MenuListReq;
 import com.z.bean.base.Response;
 import com.z.entity.vo.RouteVo;
 
@@ -16,4 +17,6 @@ public interface SMenuService  {
     Response getMenuTreeOpt();
 
     Response getSelectedMenus(Long rid);
+
+    Response getMenuList(MenuListReq req);
 }

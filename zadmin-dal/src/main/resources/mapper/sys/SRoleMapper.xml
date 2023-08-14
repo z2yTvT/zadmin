@@ -39,7 +39,8 @@
             r.enable,
             r.data_scope,
             r.create_time,
-            r.create_user
+            r.create_user,
+            r.remark
         from zadmin.s_role as r
         <where>
             <if test="req.roleName != null and req.roleName != ''">

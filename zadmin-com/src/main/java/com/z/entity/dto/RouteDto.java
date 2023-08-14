@@ -45,7 +45,7 @@ public class RouteDto {
     /**
      * 是否隐藏
      */
-    private Integer isHidden;
+    private Integer hidden;
 
     /**
      * 图标

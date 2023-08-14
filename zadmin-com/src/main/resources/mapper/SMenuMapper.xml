@@ -12,7 +12,7 @@
             <result property="subCount" column="sub_count" jdbcType="INTEGER"/>
             <result property="component" column="component" jdbcType="VARCHAR"/>
             <result property="path" column="path" jdbcType="VARCHAR"/>
-            <result property="isHidden" column="is_hidden" jdbcType="INTEGER"/>
+            <result property="hidden" column="hidden" jdbcType="INTEGER"/>
             <result property="icon" column="icon" jdbcType="VARCHAR"/>
             <result property="menuSort" column="menu_sort" jdbcType="INTEGER"/>
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
@@ -26,7 +26,7 @@
     <sql id="Base_Column_List">
         id,menu_name,perm,
         p_id,sub_count,component,
-        path,is_hidden,icon,
+        path,hidden,icon,
         menu_sort,remark,create_user,
         create_time,update_user,update_time,
         deleted

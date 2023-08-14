@@ -25,10 +25,6 @@ public class AddMenuReq {
      */
     private Long pId;
 
-    /**
-     * 子菜单数目
-     */
-    private Integer subCount;
 
     /**
      * 组件
@@ -43,7 +39,7 @@ public class AddMenuReq {
     /**
      * 是否隐藏
      */
-    private Integer isHidden;
+    private Integer hidden;
 
     /**
      * 图标

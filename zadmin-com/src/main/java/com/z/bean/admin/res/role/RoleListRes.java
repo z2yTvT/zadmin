@@ -40,6 +40,12 @@ public class RoleListRes {
     private String dataScope;
 
     /**
+     * 备注
+     */
+    private String remark;
+
+
+    /**
      * 创建人
      */
     private String createUser;

@@ -72,8 +72,6 @@ public class RoleServiceImpl implements SRoleService {
         return Response.success(roles);
     }
 
-
-
     @Override
     public Response getRoleMenus(String rid) {
         List<RoleMenuDto> allMenus = roleMapper.selectMenusByRid(rid);

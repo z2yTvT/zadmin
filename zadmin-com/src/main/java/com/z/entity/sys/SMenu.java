@@ -59,7 +59,7 @@ public class SMenu implements Serializable {
     /**
      * 是否隐藏
      */
-    private Integer isHidden;
+    private Integer hidden;
 
     /**
      * 图标
@@ -128,7 +128,7 @@ public class SMenu implements Serializable {
             && (this.getSubCount() == null ? other.getSubCount() == null : this.getSubCount().equals(other.getSubCount()))
             && (this.getComponent() == null ? other.getComponent() == null : this.getComponent().equals(other.getComponent()))
             && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
-            && (this.getIsHidden() == null ? other.getIsHidden() == null : this.getIsHidden().equals(other.getIsHidden()))
+            && (this.getHidden() == null ? other.getHidden() == null : this.getHidden().equals(other.getHidden()))
             && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
             && (this.getMenuSort() == null ? other.getMenuSort() == null : this.getMenuSort().equals(other.getMenuSort()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
@@ -150,7 +150,7 @@ public class SMenu implements Serializable {
         result = prime * result + ((getSubCount() == null) ? 0 : getSubCount().hashCode());
         result = prime * result + ((getComponent() == null) ? 0 : getComponent().hashCode());
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
-        result = prime * result + ((getIsHidden() == null) ? 0 : getIsHidden().hashCode());
+        result = prime * result + ((getHidden() == null) ? 0 : getHidden().hashCode());
         result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());
         result = prime * result + ((getMenuSort() == null) ? 0 : getMenuSort().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
@@ -175,7 +175,7 @@ public class SMenu implements Serializable {
         sb.append(", subCount=").append(subCount);
         sb.append(", component=").append(component);
         sb.append(", path=").append(path);
-        sb.append(", isHidden=").append(isHidden);
+        sb.append(", hidden=").append(hidden);
         sb.append(", icon=").append(icon);
         sb.append(", menuSort=").append(menuSort);
         sb.append(", remark=").append(remark);

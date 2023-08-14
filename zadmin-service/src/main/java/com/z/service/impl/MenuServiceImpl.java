@@ -1,12 +1,17 @@
 package com.z.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.z.bean.admin.req.menu.AddMenuReq;
+import com.z.bean.admin.req.user.MenuListReq;
 import com.z.bean.base.Response;
 import com.z.constant.SystemConstants;
 import com.z.entity.dto.RouteDto;
 import com.z.entity.sys.SMenu;
 import com.z.entity.vo.MenuTreeOptVo;
+import com.z.entity.vo.MenuVo;
 import com.z.entity.vo.RouteVo;
 import com.z.service.SMenuService;
 import com.z.sys.mapper.SMenuMapper;
@@ -19,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +34,34 @@ public class MenuServiceImpl implements SMenuService{
     private SMenuMapper menuMapper;
 
 
+    @Override
+    public Response getMenuList(MenuListReq req) {
+        LambdaQueryWrapper<SMenu> ldw = new LambdaQueryWrapper<>();
+        ldw.like(StrUtil.isNotBlank(req.getMenuName()),SMenu::getMenuName,req.getMenuName())
+                .eq(SMenu::getDeleted,0)
+                .orderByAsc(SMenu::getMenuSort);
+        List<SMenu> menusByName = menuMapper.selectList(ldw);
+        Set<Long> ids = menusByName.stream().map(SMenu::getId).collect(Collectors.toSet());
+        Set<Long> pIds = menusByName.stream().map(SMenu::getPId).collect(Collectors.toSet());
+        List<Long> rootIds = CollectionUtil.subtractToList(pIds,ids);//求pIds - ids差集，pid不存在筛选菜单id集合中，即为当前菜单集合的根集合
+        List<MenuVo> res = new ArrayList<>();
+        rootIds.forEach(rid -> {
+            res.addAll(recurMenuVoToTree(rid,menusByName));
+        });
+        return Response.success(res);
+    }
+
+    private List<MenuVo> recurMenuVoToTree(Long pid, List<SMenu> allMenu) {
+        List<MenuVo> res = new ArrayList<>();
+        res = allMenu.stream().filter(a -> a.getPId().equals(pid))
+                .map(curMenu -> {
+                    MenuVo menuVo = new MenuVo();
+                    BeanUtils.copyProperties(curMenu,menuVo);
+                    menuVo.setChildren(recurMenuVoToTree(curMenu.getId(),allMenu));
+                    return menuVo;
+                }).collect(Collectors.toList());
+        return res;
+    }
 
     @Override
     public Response getSelectedMenus(Long rid) {
@@ -81,7 +115,7 @@ public class MenuServiceImpl implements SMenuService{
                     routeVo.setName(curMenu.getMenuName());
 
                     RouteVo.Meta meta = new RouteVo.Meta();
-                    meta.setHidden(curMenu.getIsHidden() == 1);
+                    meta.setHidden(curMenu.getHidden() == 1);
                     meta.setIcon(curMenu.getIcon());
                     meta.setKeepAlive(Boolean.TRUE);
                     meta.setRoleKeys(curMenu.getRoleKeys());

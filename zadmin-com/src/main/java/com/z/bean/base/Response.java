@@ -35,7 +35,7 @@ public class Response<T>{
     }
 
     public static Response set(String code, Object data) {
-        return new Response(code, data);
+        return new Response(code,"success", data);
     }
     public static Response set(String code) {
         return new Response(code);
