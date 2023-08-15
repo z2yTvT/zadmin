@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.z.bean.admin.req.menu.AddMenuReq;
+import com.z.bean.admin.req.menu.EditMenuReq;
 import com.z.bean.admin.req.user.MenuListReq;
 import com.z.bean.base.Response;
 import com.z.constant.SystemConstants;
@@ -32,6 +33,29 @@ public class MenuServiceImpl implements SMenuService{
 
     @Autowired
     private SMenuMapper menuMapper;
+
+
+    @Override
+    public Response edit(EditMenuReq req) {
+        Integer dbCnt = menuMapper.selectCount(new LambdaQueryWrapper<SMenu>().eq(SMenu::getId, req.getId()));
+        if(dbCnt == 0){
+            return Response.error("该菜单不存在！");
+        }
+        if(StrUtil.isBlank(req.getMenuName())){
+            return Response.error("菜单名不能为空！");
+        }
+        SMenu newMenu = new SMenu();
+        newMenu.setCreateUser(SecurityUtils.getSecurityUser().getUsername());
+        newMenu.setCreateTime(new Date());
+        BeanUtils.copyProperties(req,newMenu);
+        menuMapper.updateById(newMenu);
+        return Response.success();
+    }
+
+    @Override
+    public Response getMenuDetail(Long id) {
+        return Response.success(menuMapper.selectOne(new LambdaQueryWrapper<SMenu>().eq(SMenu::getId,id)));
+    }
 
 
     @Override

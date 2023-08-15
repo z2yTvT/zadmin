@@ -1,6 +1,7 @@
 package com.z.controller;
 
 import com.z.bean.admin.req.menu.AddMenuReq;
+import com.z.bean.admin.req.menu.EditMenuReq;
 import com.z.bean.admin.req.user.MenuListReq;
 import com.z.bean.base.Response;
 import com.z.entity.vo.RouteVo;
@@ -13,11 +14,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/menu")
-@CrossOrigin
 public class MenuController {
 
     @Autowired
     private SMenuService menuService;
+
+    @PostMapping("editMenu")
+    public Response editMenu(@RequestBody EditMenuReq req){
+        return menuService.edit(req);
+    }
+
+    @GetMapping("/getMenuDetail")
+    public Response getMenuDetail(@RequestParam("id")Long id){
+        return menuService.getMenuDetail(id);
+    }
 
     @PostMapping("getMenuList")
     public Response getMenuList(@RequestBody MenuListReq req){

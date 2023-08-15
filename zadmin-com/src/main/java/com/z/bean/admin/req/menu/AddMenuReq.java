@@ -25,7 +25,6 @@ public class AddMenuReq {
      */
     private Long pId;
 
-
     /**
      * 组件
      */
@@ -51,4 +50,11 @@ public class AddMenuReq {
      */
     private Integer menuSort;
 
+    public Long getpId() {
+        return pId;
+    }
+
+    public void setpId(Long pId) {
+        this.pId = pId;
+    }
 }

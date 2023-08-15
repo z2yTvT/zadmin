@@ -21,7 +21,7 @@
         select m.perm as authority
         from zadmin.s_role as r
         left join zadmin.s_menu_role as mr on r.id = mr.r_id
-        left join zadmin.s_user_role as ur on r.id = ur.id
+        left join zadmin.s_user_role as ur on r.id = ur.r_id
         left join zadmin.s_menu as m on mr.m_id = m.id
         left join zadmin.s_user as u on ur.u_id = u.id
         <where>
