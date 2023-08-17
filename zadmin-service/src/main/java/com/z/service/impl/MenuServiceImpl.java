@@ -95,11 +95,10 @@ public class MenuServiceImpl implements SMenuService{
 
     @Override
     public Response<List<MenuTreeOptVo>> getMenuTreeOpt() {
-        List<RouteDto> allMenu = menuMapper.getAllRoutes();
+        List<RouteDto> allMenu = menuMapper.getAllRoutes(1);
         List<MenuTreeOptVo> res = recurMenu2Tree(SystemConstants.MENU_PARENT_ID,allMenu);
         return Response.success(res);
     }
-
 
     private List<MenuTreeOptVo> recurMenu2Tree(Long pid, List<RouteDto> allMenu) {
         List<MenuTreeOptVo> menuTreeOptVoList = new ArrayList<>();
@@ -118,7 +117,7 @@ public class MenuServiceImpl implements SMenuService{
     public Response<List<RouteVo>> getRoutes() {
         //查询每一个菜单的能访问的角色id集合，并且将菜单打成层级结构，菜单类型不能为按钮类型
         //查询出所有菜单集合，没有层级关系
-        List<RouteDto> allMenu = menuMapper.getAllRoutes();
+        List<RouteDto> allMenu = menuMapper.getAllRoutes(0);
         List<RouteVo> res = recurRoutes2Tree(SystemConstants.MENU_PARENT_ID,allMenu);
         return Response.success(res);
     }

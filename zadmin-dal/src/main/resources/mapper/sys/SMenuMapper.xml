@@ -67,7 +67,11 @@
         left join zadmin.s_role as r on r.id = mr.r_id
         <where>
             m.deleted = 0
-            and m.menu_type != 3
+            <choose>
+                <when test="withBtn == 0">
+                     and m.menu_type != 3
+                </when>
+            </choose>
         </where>
         order by m.menu_sort
     </select>

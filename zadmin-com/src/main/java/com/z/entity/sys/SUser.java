@@ -39,7 +39,7 @@ public class SUser implements Serializable {
     /**
      * 所在组织id
      */
-    private Long orgId;
+    private Long deptId;
 
     /**
      * 用户类型 1-管理员 2-普通用户
@@ -100,7 +100,7 @@ public class SUser implements Serializable {
             && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
             && (this.getPassWord() == null ? other.getPassWord() == null : this.getPassWord().equals(other.getPassWord()))
-            && (this.getOrgId() == null ? other.getOrgId() == null : this.getOrgId().equals(other.getOrgId()))
+            && (this.getDeptId() == null ? other.getDeptId() == null : this.getDeptId().equals(other.getDeptId()))
             && (this.getUserType() == null ? other.getUserType() == null : this.getUserType().equals(other.getUserType()))
             && (this.getUserStatus() == null ? other.getUserStatus() == null : this.getUserStatus().equals(other.getUserStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -118,7 +118,7 @@ public class SUser implements Serializable {
         result = prime * result + ((getNickname() == null) ? 0 : getNickname().hashCode());
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
         result = prime * result + ((getPassWord() == null) ? 0 : getPassWord().hashCode());
-        result = prime * result + ((getOrgId() == null) ? 0 : getOrgId().hashCode());
+        result = prime * result + ((getDeptId() == null) ? 0 : getDeptId().hashCode());
         result = prime * result + ((getUserType() == null) ? 0 : getUserType().hashCode());
         result = prime * result + ((getUserStatus() == null) ? 0 : getUserStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -139,7 +139,7 @@ public class SUser implements Serializable {
         sb.append(", nickname=").append(nickname);
         sb.append(", userName=").append(userName);
         sb.append(", passWord=").append(passWord);
-        sb.append(", orgId=").append(orgId);
+        sb.append(", deptId=").append(deptId);
         sb.append(", userType=").append(userType);
         sb.append(", userStatus=").append(userStatus);
         sb.append(", createTime=").append(createTime);

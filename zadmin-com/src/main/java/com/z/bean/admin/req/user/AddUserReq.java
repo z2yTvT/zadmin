@@ -30,7 +30,7 @@ public class AddUserReq {
      * 所在组织id
      */
 //    @NotBlank(message = "所属组织id不能为空！")
-    private Long orgId;
+    private Long deptId;
 
     /**
      * 账号状态 0-正常 1-封禁
