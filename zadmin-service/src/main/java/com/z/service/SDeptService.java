@@ -15,4 +15,6 @@ public interface SDeptService{
     Response getDeptTreeOpt();
 
     Response getDeptList(DeptListReq req);
+
+    Response getDeptById(Long id);
 }

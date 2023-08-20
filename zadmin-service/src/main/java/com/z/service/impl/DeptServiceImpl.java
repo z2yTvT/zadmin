@@ -16,6 +16,7 @@ import com.z.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,20 @@ public class DeptServiceImpl implements SDeptService {
 
     @Autowired
     private SDeptMapper deptMapper;
+
+
+    @Override
+    public Response getDeptById(Long id) {
+        if(id == null){
+            return Response.error("部门id不能为空！");
+        }
+        SDept dept = deptMapper.selectOne(new LambdaQueryWrapper<SDept>().eq(SDept::getDeleted, 0).eq(SDept::getId,id));
+        if(dept == null){
+            return Response.error("部门不存在！");
+        }
+        return Response.success(dept);
+    }
+
 
     @Override
     public Response getDeptList(DeptListReq req) {
@@ -61,6 +76,7 @@ public class DeptServiceImpl implements SDeptService {
                 .map(a -> {
                     DeptOptVO deptOptVO = new DeptOptVO();
                     BeanUtils.copyProperties(a,deptOptVO);
+                    deptOptVO.setLabel(a.getDeptName());
                     deptOptVO.setChildren(recurDept2OptTree(a.getId(),allDept));
                     return deptOptVO;
                 }).collect(Collectors.toList());

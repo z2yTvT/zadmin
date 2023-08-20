@@ -1,11 +1,10 @@
 package com.z.bean.base;
 
+import com.z.bean.enums.ResponseCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
 @NoArgsConstructor
 public class Response<T>{
 
@@ -23,6 +22,14 @@ public class Response<T>{
 
     public static Response error(String message){
         return set("400", message, null);
+    }
+
+    public static Response error(ResponseCodeEnum responseCode) {
+        return set(responseCode.getCode(), responseCode.getDesc(),null);
+    }
+
+    public static Response set(String code, String desc) {
+        return new Response(code, desc);
     }
 
 
@@ -52,6 +59,7 @@ public class Response<T>{
         this.code = code;
         this.data = data;
     }
+
 
     public Response(String code){
         this.code = code;

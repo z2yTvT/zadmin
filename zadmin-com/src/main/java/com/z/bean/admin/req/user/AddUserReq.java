@@ -6,11 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-/**
- * @program:zadmin
- * @author: Zzz
- * @Time: 2023/8/6  11:58
- */
+
 @Data
 public class AddUserReq {
 

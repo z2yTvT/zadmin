@@ -1,6 +1,7 @@
 package com.z.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -39,12 +40,13 @@ public class DeptVo {
     /**
      * 创建人
      */
-    private String updateUser;
+    private String createUser;
 
     /**
      * 创建时间
      */
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createTime;
 
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
     List<DeptVo> children;

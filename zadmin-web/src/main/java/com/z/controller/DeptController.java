@@ -17,6 +17,11 @@ public class DeptController {
     @Autowired
     private SDeptService deptService;
 
+    @GetMapping("getDeptById")
+    public Response getDeptById(@RequestParam Long id){
+        return deptService.getDeptById(id);
+    }
+
     @PostMapping("getDeptList")
     public Response getDeptList(@RequestBody DeptListReq req){
         return deptService.getDeptList(req);

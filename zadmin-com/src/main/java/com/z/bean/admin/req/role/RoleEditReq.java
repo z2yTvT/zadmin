@@ -4,11 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-/**
- * @program:zadmin
- * @author: Zzz
- * @Time: 2023/8/6  10:08
- */
+
 @Data
 public class RoleEditReq {
 

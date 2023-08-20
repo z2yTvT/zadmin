@@ -1,6 +1,7 @@
 package com.z.controller;
 
 import com.z.bean.base.Response;
+import com.z.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExceptionController {
 
+    @ExceptionHandler({ServiceException.class})
+    public Response serviceExceptionHandler(ServiceException serviceException){
+        log.error(serviceException.getMessage());
+        return Response.set(serviceException.getErrorCode(),serviceException.getMessage());
+    }
+
+
     /**
      * @RequestBody 上校验失败后抛出的异常是 MethodArgumentNotValidException 异常。
      */
@@ -35,7 +43,7 @@ public class ExceptionController {
      * 不加 @RequestBody注解，校验失败抛出的则是 BindException
      */
     @ExceptionHandler(value = BindException.class)
-    public Response exceptionHandler(BindException e){
+    public Response bindExceptionHandler(BindException e){
         String messages = e.getBindingResult().getAllErrors()
                 .stream()
                 .map(ObjectError::getDefaultMessage)
@@ -52,13 +60,4 @@ public class ExceptionController {
         return Response.error(messages);
     }
 
-//    @ExceptionHandler(value = {Exception.class})//todo 异常细化
-//    @ResponseBody
-//    public Response handleException(Exception e){
-//        log.error("==========================异常===========================");
-//        log.error(e.getMessage());
-//        e.printStackTrace();
-//        log.error("==========================异常===========================");
-//        return Response.set("500","服务器异常",null);
-//    }
 }

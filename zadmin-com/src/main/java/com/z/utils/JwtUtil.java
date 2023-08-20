@@ -13,11 +13,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * @program:zadmin
- * @author: Zzz
- * @Time: 2023/8/1  10:11
- */
+
 @Component
 public class JwtUtil {
     public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;  // 有效期14天
