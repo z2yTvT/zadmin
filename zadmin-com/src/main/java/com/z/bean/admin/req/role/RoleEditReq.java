@@ -27,7 +27,7 @@ public class RoleEditReq {
     /**
      * 数据权限范围
      */
-    private String dataScope;
+    private Integer dataScope;
 
     /**
      * 是否启用

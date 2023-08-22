@@ -21,6 +21,8 @@ public class SecurityUserDto implements UserDetails {
 
     private SUser user;
 
+    private Integer dataScope;
+
     /**
      * 权限列表
      */

@@ -25,6 +25,8 @@ public interface SRoleMapper extends BaseMapper<SRole> {
     List<RoleMenuDto> selectMenusByRid(@Param("rid") String rid);
 
     List<RoleByUidRes> getRoleByUid(@Param("uid")Long uid);
+
+    Integer getDataScope(@Param("uid") Long id);
 }
 
 

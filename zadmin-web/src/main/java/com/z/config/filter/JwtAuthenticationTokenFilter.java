@@ -54,6 +54,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 throw new ServiceException(ResponseCodeEnum.USER_NOT_EXIST);
             }
             List<AuthorityDto> authorities = roleService.getAuthorities(user);
+            Integer dataScope = roleService.getDataScope(user);
             SecurityUserDto securityUserDto = new SecurityUserDto(user, authorities);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(securityUserDto, null, securityUserDto.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

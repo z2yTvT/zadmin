@@ -145,4 +145,13 @@ public class RoleServiceImpl implements SRoleService {
         List<AuthorityDto> authorities = roleMapper.selectRolePermByUserId(user);
         return authorities;
     }
+
+    /**
+     * @param user
+     * @return 获取用户角色中的最大数据权限
+     */
+    @Override
+    public Integer getDataScope(SUser user) {
+        return roleMapper.getDataScope(user.getId());
+    }
 }

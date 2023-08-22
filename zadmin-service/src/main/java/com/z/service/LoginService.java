@@ -25,7 +25,7 @@ public class LoginService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);//放在当前线程上下文 todo 密码错误异常处理
         SecurityUserDto jwtUserDto = (SecurityUserDto) authentication.getPrincipal();
-        String token = JwtUtil.createJWT(jwtUserDto.getUser().getId().toString());
+        String token = JwtUtil.createJWT(jwtUserDto);
         LoginRes res = new LoginRes();
         res.setToken(token);
         return res;

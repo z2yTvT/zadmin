@@ -20,7 +20,7 @@ public class RoleAddReq {
     /**
      * 数据权限范围
      */
-    private String dataScope;
+    private Integer dataScope;
 
     /**
      * 备注

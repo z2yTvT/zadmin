@@ -1,10 +1,8 @@
 package com.z.utils;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.z.entity.dto.SecurityUserDto;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -23,8 +21,12 @@ public class JwtUtil {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-    public static String createJWT(String subject) {
-        JwtBuilder builder = getJwtBuilder(subject, null, getUUID());
+    public static String createJWT(SecurityUserDto jwtUserDto) {
+        Claims claims = Jwts.claims().setSubject(jwtUserDto.getUser().getUserName());
+        claims.put("userId",jwtUserDto.getUser().getId());
+        claims.put("userName",jwtUserDto.getUser().getUserName());
+        claims.put("dataScope",jwtUserDto.getDataScope());
+        JwtBuilder builder = getJwtBuilder(claims.getSubject(), null, getUUID());
         return builder.compact();
     }
 

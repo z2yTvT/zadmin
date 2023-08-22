@@ -4,3 +4,5 @@
 /zadmin-com/target/
 /.idea/
 /zadmin.iml
+/zadmin-com/src/test/
+/zadmin-web/src/test/java/

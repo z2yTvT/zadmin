@@ -31,6 +31,16 @@
             and #{user.deleted} != 1
         </where>
     </select>
+
+    <select id="getDataScope" resultType="java.lang.Integer">
+        select max(r.data_scope)
+        from zadmin.s_role as r
+        left join zadmin.s_user_role as ur on  r.id = ur.r_id
+        <where>
+            ur.u_id = #{uid}
+        </where>
+    </select>
+
     <select id="list" resultType="com.z.bean.admin.res.role.RoleListRes">
         select r.id,
             r.role_name,

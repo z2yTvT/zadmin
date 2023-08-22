@@ -32,4 +32,6 @@ public interface SRoleService {
     Response getRoleByUid(Long uid);
 
     Response getAllRole();
+
+    Integer getDataScope(SUser user);
 }
