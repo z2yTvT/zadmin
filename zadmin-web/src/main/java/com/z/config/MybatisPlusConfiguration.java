@@ -2,6 +2,7 @@ package com.z.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class MybatisPlusConfiguration {
         MybatisPlusInterceptor interceptors = new MybatisPlusInterceptor();
         PaginationInnerInterceptor page = new PaginationInnerInterceptor(DbType.MYSQL);
         interceptors.addInnerInterceptor(page);
+        interceptors.addInnerInterceptor(new DataPermissionInterceptor(new DataPermissionHandlerImpl()));
         return interceptors;
     }
 }

@@ -26,11 +26,11 @@ public class JwtUtil {
         claims.put("userId",jwtUserDto.getUser().getId());
         claims.put("userName",jwtUserDto.getUser().getUserName());
         claims.put("dataScope",jwtUserDto.getDataScope());
-        JwtBuilder builder = getJwtBuilder(claims.getSubject(), null, getUUID());
+        JwtBuilder builder = getJwtBuilder(claims, null, getUUID());
         return builder.compact();
     }
 
-    private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
+    private static JwtBuilder getJwtBuilder(Claims claims, Long ttlMillis, String uuid) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         SecretKey secretKey = generalKey();
         long nowMillis = System.currentTimeMillis();
@@ -42,8 +42,8 @@ public class JwtUtil {
         long expMillis = nowMillis + ttlMillis;
         Date expDate = new Date(expMillis);
         return Jwts.builder()
+                .setClaims(claims)
                 .setId(uuid)
-                .setSubject(subject)
                 .setIssuer("sg")
                 .setIssuedAt(now)
                 .signWith(signatureAlgorithm, secretKey)

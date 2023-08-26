@@ -45,17 +45,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             return;
         }
         token = token.substring(7);
-        String userId;
+        Long userId;
         try {
             Claims claims = JwtUtil.parseJWT(token);
-            userId = claims.getSubject();
+            userId = claims.get("userId", Long.class);
             SUser user = userMapper.selectById(userId);
             if (user == null) {
                 throw new ServiceException(ResponseCodeEnum.USER_NOT_EXIST);
             }
             List<AuthorityDto> authorities = roleService.getAuthorities(user);
             Integer dataScope = roleService.getDataScope(user);
-            SecurityUserDto securityUserDto = new SecurityUserDto(user, authorities);
+            SecurityUserDto securityUserDto = new SecurityUserDto(user, authorities, dataScope);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(securityUserDto, null, securityUserDto.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

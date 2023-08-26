@@ -28,9 +28,16 @@ public class SecurityUserDto implements UserDetails {
      */
     private List<AuthorityDto> permissions;
 
+
     public SecurityUserDto(SUser user, List<AuthorityDto>  permissions) {
         this.user = user;
         this.permissions = permissions;
+    }
+
+    public SecurityUserDto(SUser user, List<AuthorityDto>  permissions,Integer dataScope) {
+        this.user = user;
+        this.permissions = permissions;
+        this.dataScope = dataScope;
     }
 
     @Override
