@@ -26,6 +26,7 @@ public class JwtUtil {
         claims.put("userId",jwtUserDto.getUser().getId());
         claims.put("userName",jwtUserDto.getUser().getUserName());
         claims.put("dataScope",jwtUserDto.getDataScope());
+        claims.put("jti",getUUID());
         JwtBuilder builder = getJwtBuilder(claims, null, getUUID());
         return builder.compact();
     }
