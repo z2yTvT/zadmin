@@ -57,7 +57,7 @@ public class UserServiceImpl implements SUserService {
         }
         SUser newUser = new SUser();
         BeanUtils.copyProperties(req,newUser);
-        newUser.setUpdateTime(new Date());
+//        newUser.setUpdateTime(new Date());
         newUser.setUpdateUser(SecurityUtils.getSecurityUser().getUser().getUserName());
         userMapper.updateById(newUser);
         return Response.success();
