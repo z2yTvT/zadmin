@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Component
 @Order(1)
 @Slf4j
-public class AspectConfig {
+public class InitDataAspect {
 
     @Pointcut("execution(* com.z.controller..*.*(..))")
     private void webLog(){
@@ -41,8 +41,8 @@ public class AspectConfig {
     @Before("webLog()")
     public void before() {
         log.info("用户请求");
-        SUser user = SecurityUtils.getSecurityUser().getUser();
-        log.info(JSONObject.toJSONString(user));
+//        SUser user = SecurityUtils.getSecurityUser().getUser();
+//        log.info(JSONObject.toJSONString(user));
 
     }
 
