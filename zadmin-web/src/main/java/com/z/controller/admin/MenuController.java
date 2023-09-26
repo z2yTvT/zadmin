@@ -1,4 +1,4 @@
-package com.z.controller;
+package com.z.controller.admin;
 
 import com.z.bean.admin.req.menu.AddMenuReq;
 import com.z.bean.admin.req.menu.EditMenuReq;

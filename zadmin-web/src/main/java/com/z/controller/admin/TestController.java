@@ -1,4 +1,4 @@
-package com.z.controller;
+package com.z.controller.admin;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

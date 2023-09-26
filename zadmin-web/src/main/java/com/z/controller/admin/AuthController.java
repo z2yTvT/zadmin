@@ -1,4 +1,4 @@
-package com.z.controller;
+package com.z.controller.admin;
 
 import cn.hutool.core.util.StrUtil;
 import com.z.bean.admin.req.login.LoginReq;
