@@ -13,6 +13,8 @@ import com.z.utils.JwtUtil;
 import com.z.utils.ResponseUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -60,7 +63,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (ExpiredJwtException | ServiceException  e) {
             if (e instanceof ExpiredJwtException) {
                 ResponseUtils.errResp(response, ResponseCodeEnum.EXPIRE_TOKEN);
                 return;
@@ -69,7 +72,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 ResponseUtils.errResp(response, ResponseCodeEnum.USER_NOT_EXIST);
                 return;
             }
-            ResponseUtils.errResp(response, ResponseCodeEnum.INVALID_TOKEN);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            ResponseUtils.errResp(response, ResponseCodeEnum.CODE_500);
         }
 
     }
