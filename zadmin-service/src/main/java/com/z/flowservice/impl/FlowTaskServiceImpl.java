@@ -24,7 +24,7 @@ public class FlowTaskServiceImpl implements FlowTaskService {
         if (task == null) {
             return Response.error("该任务不存在！");
         }
-        taskService.addComment(req.getTaskId(), FlowCommentEnum.NORMAL.getType(), req.getComment());
+        taskService.addComment(req.getTaskId(),req.getProcInstId(), FlowCommentEnum.NORMAL.getType(), req.getComment());
         String userId = String.valueOf(SecurityUtils.getSecurityUser().getUser().getId());
         taskService.setAssignee(req.getTaskId(), userId);
         taskService.complete(req.getTaskId(), req.getVariables());
